@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>O5 ARCHIVE - ACCESS TERMINAL</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: monospace;
+    background: black;
+    color: #00ff9d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* LOGIN */
+#loginBox {
+    text-align: center;
+}
+
+input, textarea {
+    background: black;
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+    padding: 10px;
+    margin: 5px;
+    width: 300px;
+    font-family: monospace;
+}
+
+button {
+    background: black;
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* WARNING SCREEN */
+#denyScreen {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loginBox">
+    <h2>O5-LOCKED ARCHIVE</h2>
+    <input id="password" type="password" placeholder="Wprowadź kod dostępu">
+    <br>
+    <button onclick="checkPassword()">ZATWIERDŹ</button>
+</div>
+
+<div id="editor" style="display:none; width:80%;">
+    <h2>WYWIAD (EDYTOR)</h2>
+    <textarea id="interview" rows="20" style="width:100%;"></textarea>
+    <br>
+    <button onclick="save()">ZAPISZ LOKALNIE</button>
+</div>
+
+<div id="denyScreen">
+    DOSTĘP ODRZUCONY<br>
+    AGENT MEMETYCZNY ZOSTAŁ ZASTOSOWANY
+</div>
+
+<script>
+let flashInterval;
+
+function checkPassword() {
+    let pass = document.getElementById("password").value;
+
+    if (pass === "valentin") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("editor").style.display = "block";
+    } else {
+        triggerDeny();
+    }
+}
+
+function triggerDeny() {
+    document.body.innerHTML = "";
+    let screen = document.getElementById("denyScreen");
+    screen.style.display = "flex";
+
+    let white = true;
+
+    flashInterval = setInterval(() => {
+        document.body.style.background = white ? "white" : "black";
+        document.body.style.color = white ? "black" : "white";
+        white = !white;
+    }, 500);
+}
+
+function save() {
+    let text = document.getElementById("interview").value;
+    localStorage.setItem("scp_interview", text);
+    alert("Zapisano lokalnie (przeglądarka)");
+}
+</script>
+
+</body>
+</html>
